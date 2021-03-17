@@ -25,9 +25,14 @@ namespace HealthCheck.Controllers.WorldCity
         // GET: api/Cities
         [HttpGet]
         //[Route("{pageIndex?}/{pageSize?}")]
-        public async Task<ActionResult<ApiResult<City>>> GetCities(int pageIndex=0,int pageSize=10)
+        public async Task<ActionResult<ApiResult<City>>> GetCities(
+            int pageIndex=0,
+            int pageSize=10,
+            string sortColumn = null,
+           string sortOrder = null
+            )
         {
-            return await ApiResult<City>.CreateAsync(_context.Cities, pageIndex, pageSize);
+            return await ApiResult<City>.CreateAsync(_context.Cities, pageIndex, pageSize,sortColumn,sortOrder);
         }
 
         // GET: api/Cities/5
