@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { HealthCheckComponent } from './health-check/health-check.component';
 
 
 @NgModule({
@@ -16,7 +16,7 @@ import { AppRoutingModule } from './app-routing.module';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-  
+    HealthCheckComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
