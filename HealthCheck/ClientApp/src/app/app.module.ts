@@ -13,13 +13,15 @@ import { CitiesComponent } from './cities/cities.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AngularMaterialModule } from './angular-material.module';
+import { CountryComponent } from './country/country.component';
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
     HealthCheckComponent,
-    CitiesComponent
+    CitiesComponent,
+    CountryComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
