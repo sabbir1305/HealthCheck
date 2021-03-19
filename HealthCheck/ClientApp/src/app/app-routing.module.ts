@@ -11,7 +11,8 @@ const routes: Routes = [
   { path: 'health-check', component: HealthCheckComponent },
   { path: 'app-cities', component: CitiesComponent },
   { path: 'app-country', component: CountryComponent },
-  {path: 'city/:id', component:CityEditComponent}
+  {path: 'city/:id', component:CityEditComponent},
+  {path: 'city', component:CityEditComponent}
 ];
 
 @NgModule({

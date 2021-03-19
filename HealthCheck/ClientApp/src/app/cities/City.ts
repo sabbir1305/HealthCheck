@@ -4,4 +4,5 @@ export
   name: string;
   lat: number;
   lon: number;
+  countryId: number;
 }
