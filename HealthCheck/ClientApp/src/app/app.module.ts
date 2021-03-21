@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
 import { CountryComponent } from './country/country.component';
 import { CityEditComponent } from './city-edit/city-edit.component';
+import { CountryEditComponent } from './country-edit/country-edit.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CityEditComponent } from './city-edit/city-edit.component';
     HealthCheckComponent,
     CitiesComponent,
     CountryComponent,
-    CityEditComponent
+    CityEditComponent,
+    CountryEditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
