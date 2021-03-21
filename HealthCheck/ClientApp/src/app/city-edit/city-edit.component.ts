@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { BaseFormComponent } from '../Base.Form.Component';
 import { City } from '../cities/City';
 import { Country } from '../country/Country';
 
@@ -14,7 +15,7 @@ import { Country } from '../country/Country';
   templateUrl: './city-edit.component.html',
   styleUrls: ['./city-edit.component.css']
 })
-export class CityEditComponent implements OnInit {
+export class CityEditComponent extends BaseFormComponent implements OnInit {
 
   title: string;
 
@@ -31,7 +32,9 @@ export class CityEditComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     @Inject('BASE_URL') private baseUrls:string
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -121,4 +124,6 @@ export class CityEditComponent implements OnInit {
 
     }
   }
+
+
 }
