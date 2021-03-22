@@ -12,7 +12,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./country.component.css']
 })
 export class CountryComponent implements OnInit {
-  public displayedColumns: string[] = ['id', 'name', 'iso2', 'iso3'];
+  public displayedColumns: string[] = ['id', 'name', 'iso2', 'iso3','totalCities'];
   public countries: MatTableDataSource<Country>;
 
   defaultPageIndex: number = 0;

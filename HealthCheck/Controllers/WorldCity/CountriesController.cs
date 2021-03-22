@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HealthCheck.Data;
 using HealthCheck.Data.Models.WorldCities;
 using HealthCheck.Helpers;
+using HealthCheck.Data.Dtos;
 
 namespace HealthCheck.Controllers.WorldCity
 {
@@ -24,7 +25,7 @@ namespace HealthCheck.Controllers.WorldCity
 
         // GET: api/Countries
         [HttpGet]
-        public async Task<ActionResult<ApiResult<Country>>> GetCountries(
+        public async Task<ActionResult<ApiResult<CountryDTO>>> GetCountries(
              int pageIndex = 0,
             int pageSize = 10,
             string sortColumn = null,
@@ -33,7 +34,16 @@ namespace HealthCheck.Controllers.WorldCity
            string filterQuery = null
             )
         {
-            return await ApiResult<Country>.CreateAsync(_context.Countries, pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
+            var cQuery = _context.Countries.Select(c => new CountryDTO()
+            {
+                Id = c.Id,
+                Name=c.Name,
+                ISO2=c.ISO2,
+                ISO3=c.ISO3,
+                TotalCities=c.Cities.Count
+            
+            });
+            return await ApiResult<CountryDTO>.CreateAsync(cQuery, pageIndex, pageSize, sortColumn, sortOrder, filterColumn, filterQuery);
         }
 
         // GET: api/Countries/5
