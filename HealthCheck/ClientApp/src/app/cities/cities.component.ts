@@ -8,6 +8,8 @@ import { MatSort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { City } from './city';
+import { CityService } from './city.service';
+import { ApiResult } from '../BaseService';
 
 @Component({
   selector: 'app-cities',
@@ -33,8 +35,7 @@ export class CitiesComponent implements OnInit {
 
   filterTextChanged: Subject<string> = new Subject<string>();
   constructor(
-    private http: HttpClient,
-    @Inject('BASE_URL') private baseUrl: string)
+    private cityService: CityService)
   {
     
   }
@@ -68,26 +69,26 @@ export class CitiesComponent implements OnInit {
   }
 
   getData(event: PageEvent) {
-    var url = this.baseUrl + 'api/Cities';
-    var params = new HttpParams()
-      .set("pageIndex", event.pageIndex.toString())
-      .set("pageSize", event.pageSize.toString())
-      .set("sortColumn", (this.sort) ? this.sort.active : this.defaultSortColumn)
-      .set("sortOrder", (this.sort) ? this.sort.direction : this.defaultSortOrder);
 
-    if (this.filterQuery) {
-      params = params.set("filterColumn", this.defaultFilterColumn)
-                     .set("filterQuery", this.filterQuery);
-    }
-
-    this.http.get<any>(url, {params}).subscribe(result => {
-      this.paginator.length = result.totalCount;
-      this.paginator.pageIndex = result.pageIndex;
-      this.paginator.pageSize = result.pageSize;
-      this.cities = new MatTableDataSource<City>(result.data);
-      
-
-    }, error => console.error(error));
+    var sortColumn = (this.sort)
+      ? this.sort.active
+      : this.defaultSortColumn;
+    var sortOrder = (this.sort)
+      ? this.sort.direction
+      : this.defaultSortOrder;
+    var filterColumn = (this.filterQuery)
+      ? this.defaultFilterColumn
+      : null;
+    var filterQuery = (this.filterQuery)
+      ? this.filterQuery
+      : null;
+    this.cityService.getData<ApiResult<City>>(event.pageIndex, event.pageSize,
+      sortColumn, sortOrder, filterColumn, filterQuery).subscribe(result => {
+        this.paginator.length = result.totalCount;
+        this.paginator.pageIndex = result.pageIndex;
+        this.paginator.pageSize = result.pageSize;
+        this.cities = new MatTableDataSource<City>(result.data);
+      }, error => console.error(error));
 
   }
 
