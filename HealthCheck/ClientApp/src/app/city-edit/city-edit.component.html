@@ -59,12 +59,12 @@
       </option>
     </select>
   </div>-->
-    <div class="form-group" *ngIf="countries">
+    <div class="form-group" *ngIf="countries? async as result">
       <label for="countryId">Country</label><br />
       <mat-form-field *ngIf="countries">
         <mat-label>Select a country---</mat-label>
         <mat-select id="countryId" formControlName="countryId">
-          <mat-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</mat-option>
+          <mat-option *ngFor="let country of result.data" [value]="country.id">{{country.name}}</mat-option>
         </mat-select>
       </mat-form-field>
 

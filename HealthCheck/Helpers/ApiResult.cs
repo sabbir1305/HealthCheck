@@ -80,6 +80,11 @@ namespace HealthCheck.Helpers
             source = source
             .Skip(pageIndex * pageSize)
             .Take(pageSize);
+            // retrieve the SQL query (for debug purposes)
+            #if DEBUG
+                        var sql = source.ToParameterizedSql();
+            #endif
+
             var data = await source.ToListAsync();
             return new ApiResult<T>(
             data,

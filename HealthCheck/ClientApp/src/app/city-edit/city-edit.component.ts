@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AsyncValidatorFn, FormControl, FormGroup, Validators,AbstractControl,AsyncValidator } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { async, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BaseFormComponent } from '../Base.Form.Component';
@@ -27,7 +27,7 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
 
   id?: number;
 
-  countries: Country[];
+  countries: Observable<ApiResult<Country>>;
 
   constructor(
     private acitvatedRoute: ActivatedRoute,
@@ -73,10 +73,8 @@ export class CityEditComponent extends BaseFormComponent implements OnInit {
 
   loadCountries() {
    
-    this.cityService.getCountries<ApiResult<Country>>(0, 9999, "Name", null, null, null)
-      .subscribe(result => {
-      this.countries = result.data;
-    }, error => console.error(error));
+    this.countries = this.cityService.getCountries<ApiResult<Country>>(0, 9999, "Name", null, null, null);
+      
   }
 
   onSubmit() {

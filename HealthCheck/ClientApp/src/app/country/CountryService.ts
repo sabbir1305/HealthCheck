@@ -14,7 +14,7 @@ import { Country } from '../Country/Country';
 export class CountryService extends BaseService {
 
   getData<ApiResult>(pageIndex: number, pageSize: number, sortColumn: string, sortOrder: string, filterColumn: string, filterQuery: string): Observable<ApiResult> {
-    let url = this.baseUrl + 'api/Cities';
+    let url = this.baseUrl + 'api/Countries';
     let params = new HttpParams().set("pageIndex", pageIndex.toString())
       .set("pageSize", pageSize.toString())
       .set("sortColumn", sortColumn)
