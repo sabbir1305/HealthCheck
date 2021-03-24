@@ -5,7 +5,11 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Country } from './Country';
 import { MatSort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
+
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { CountryService } from './countryservice';
+import { ApiResult } from '../baseservice';
+
 @Component({
   selector: 'app-country',
   templateUrl: './country.component.html',
@@ -28,8 +32,8 @@ export class CountryComponent implements OnInit {
   filterTextChanged: Subject<string> = new Subject<string>();
 
   constructor(
-    private http: HttpClient,
-    @Inject('BASE_URL') private baseUrl: string
+    private service: CountryService
+    
   ) { }
 
 
@@ -58,19 +62,21 @@ export class CountryComponent implements OnInit {
   }
 
   getData(event: PageEvent) {
-    var url = this.baseUrl + 'api/Countries';
-    var params = new HttpParams()
-      .set("pageIndex", event.pageIndex.toString())
-      .set("pageSize", event.pageSize.toString())
-      .set("sortColumn", (this.sort) ? this.sort.active : this.defaultSortColumn)
-      .set("sortOrder", (this.sort) ? this.sort.direction : this.defaultSortOrder);
+    var sortColumn = (this.sort)
+      ? this.sort.active
+      : this.defaultSortColumn;
+    var sortOrder = (this.sort)
+      ? this.sort.direction
+      : this.defaultSortOrder;
+    var filterColumn = (this.filterQuery)
+      ? this.defaultFilterColumn
+      : null;
+    var filterQuery = (this.filterQuery)
+      ? this.filterQuery
+      : null;
 
-    if (this.filterQuery) {
-      params = params.set("filterColumn", this.defaultFilterColumn)
-        .set("filterQuery", this.filterQuery);
-    }
-
-    this.http.get<any>(url, { params }).subscribe(result => {
+    this.service.getData<ApiResult<Country>>(event.pageIndex, event.pageSize, sortColumn, sortOrder, filterColumn, filterQuery)
+      .subscribe(result => {
       this.paginator.length = result.totalCount;
       this.paginator.pageIndex = result.pageIndex;
       this.paginator.pageSize = result.pageSize;
