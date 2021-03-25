@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace HealthCheck
 {
@@ -101,6 +102,9 @@ namespace HealthCheck
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            // Use the Serilog request logging middleware to log HTTP requests.
+            app.UseSerilogRequestLogging();
         }
     }
 }
