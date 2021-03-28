@@ -9,6 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
+using Microsoft.Extensions.Options;
+using IdentityServer4.EntityFramework.Options;
+
 namespace HealthCheck.Tests
 {
    public class CitiesController_Test
@@ -17,9 +20,10 @@ namespace HealthCheck.Tests
         public async void GetCiyShouldReturnCity()
         {
             //Arrange
+            var storeOptions = Options.Create(new OperationalStoreOptions());
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: "WorldCitiesDb").Options;
-            using (var context = new ApplicationDbContext(options))
+            using (var context = new ApplicationDbContext(options,storeOptions))
             {
                 context.Add(new City()
                 {
@@ -37,7 +41,7 @@ namespace HealthCheck.Tests
             City city_notExisting = null;
             //Act
 
-            using (var context = new ApplicationDbContext(options))
+            using (var context = new ApplicationDbContext(options,storeOptions))
             {
                 var controller = new CitiesController(context);
                 city_existing = (await controller.GetCity(1)).Value;

@@ -1,7 +1,9 @@
 ﻿using HealthCheck.Data;
+using HealthCheck.Data.Models.Auth;
 using HealthCheck.Data.Models.WorldCities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
@@ -18,11 +20,19 @@ namespace HealthCheck.Controllers.Seed
     public class SeedDataController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IWebHostEnvironment _env;
 
-        public SeedDataController(ApplicationDbContext context, IWebHostEnvironment env)
+        public SeedDataController(ApplicationDbContext context,
+            IWebHostEnvironment env,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager
+            )
         {
             _context = context;
+            _roleManager = roleManager;
+            _userManager = userManager;
             _env = env;
         }
 
@@ -120,5 +130,12 @@ namespace HealthCheck.Controllers.Seed
             });
 
         }
+   
+        [HttpGet]
+        public async Task<ActionResult> CreateDefaultUsers()
+        {
+            throw new NotImplementedException();
+        }
+    
     }
 }

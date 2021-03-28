@@ -1,5 +1,9 @@
-﻿using HealthCheck.Data.Models.WorldCities;
+﻿using HealthCheck.Data.Models.Auth;
+using HealthCheck.Data.Models.WorldCities;
+using IdentityServer4.EntityFramework.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +11,14 @@ using System.Threading.Tasks;
 
 namespace HealthCheck.Data
 {
-    public class ApplicationDbContext :  DbContext
+    public class ApplicationDbContext :  ApiAuthorizationDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() : base()
+        public ApplicationDbContext(DbContextOptions options,
+            IOptions<OperationalStoreOptions> operationalOptions) : base(options,operationalOptions)
         {
 
         }
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        {
-
-        }
+      
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
     }
