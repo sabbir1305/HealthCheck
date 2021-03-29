@@ -1,6 +1,7 @@
 ﻿using HealthCheck.Controllers.Seed;
 using HealthCheck.Data;
 using HealthCheck.Data.Models.Auth;
+using HealthCheck.Tests.Helpers;
 using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -19,7 +20,7 @@ using Xunit;
 
 namespace HealthCheck.Tests
 {
-    class SeedController_Tests
+  public  class SeedController_Tests
     {
         
         [Fact]
@@ -43,29 +44,13 @@ namespace HealthCheck.Tests
             {
                 var roleStore = new RoleStore<IdentityRole> (context);
 
-                var roleManager =
-                    new RoleManager<IdentityRole>(
-                    roleStore,
-                    new IRoleValidator<IdentityRole>[0],
-                    new UpperInvariantLookupNormalizer(),
-                    new Mock<IdentityErrorDescriber>().Object,
-                    new Mock<ILogger<RoleManager<IdentityRole>>>().Object
-
-                    
-                    );
+                // create a RoleManager instance
+                var roleManager = IdentityHelper.GetRoleManager(
+                new RoleStore<IdentityRole>(context));
 
                 var userStore = new UserStore<ApplicationUser>(context);
 
-                var userManager = new UserManager<ApplicationUser>(
-                    userStore,
-                    new Mock<IOptions<IdentityOptions>>().Object,
-                    new Mock<IPasswordHasher<ApplicationUser>>().Object,
-                    new IUserValidator<ApplicationUser>[0],
-                    new IPasswordValidator<ApplicationUser>[0],
-                    new UpperInvariantLookupNormalizer(),
-                    new Mock<IdentityErrorDescriber>().Object,
-                    new Mock<IServiceProvider>().Object,
-                    new Mock<ILogger<UserManager<ApplicationUser>>>().Object);
+                var userManager = IdentityHelper.GetUserManager(userStore);
 
                 var controller = new SeedDataController(
                                 context,

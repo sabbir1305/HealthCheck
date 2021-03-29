@@ -134,7 +134,74 @@ namespace HealthCheck.Controllers.Seed
         [HttpGet]
         public async Task<ActionResult> CreateDefaultUsers()
         {
-            throw new NotImplementedException();
+            string role_RegisteredUser = "RegisteredUser";
+            string role_Administrator = "Adminstrator";
+
+            if(await _roleManager.FindByNameAsync(role_RegisteredUser) == null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole(role_RegisteredUser));
+            }
+
+            if(await _roleManager.FindByNameAsync(role_Administrator) == null)
+            {
+                await _roleManager.CreateAsync(new IdentityRole(role_Administrator));
+            }
+
+            var addedUserList = new List<ApplicationUser>();
+
+            var email_admin = "admin@email.com";
+
+            if(await _userManager.FindByNameAsync(email_admin) == null)
+            {
+                var user_admin = new ApplicationUser()
+                {
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = email_admin,
+                    Email = email_admin
+                };
+                await _userManager.CreateAsync(user_admin, "MySecr3t$");
+
+                await _userManager.AddToRoleAsync(user_admin, role_RegisteredUser);
+                await _userManager.AddToRoleAsync(user_admin, role_Administrator);
+
+                //confirm the email and remomve lock out
+                user_admin.EmailConfirmed = true;
+                user_admin.LockoutEnabled = false;
+
+                addedUserList.Add(user_admin);
+            }
+
+            var email_user = "user@email.com";
+            if(await _userManager.FindByNameAsync(email_user) == null)
+            {
+                var user_User = new ApplicationUser()
+                {
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    UserName = email_user,
+                    Email = email_user
+                };
+
+                await _userManager.CreateAsync(user_User, "MySecr3t$");
+                // assign the "RegisteredUser" role
+                await _userManager.AddToRoleAsync(user_User,
+                role_RegisteredUser);
+                // confirm the e-mail and remove lockout
+                user_User.EmailConfirmed = true;
+                user_User.LockoutEnabled = false;
+                // add the standard user to the added users list
+                addedUserList.Add(user_User);
+            }
+            if (addedUserList.Count > 0)
+            {
+                await _context.SaveChangesAsync();
+            }
+            return new JsonResult(new
+            {
+                Count = addedUserList.Count,
+                Users = addedUserList
+            });
+            
+
         }
     
     }
