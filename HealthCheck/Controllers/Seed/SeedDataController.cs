@@ -36,7 +36,7 @@ namespace HealthCheck.Controllers.Seed
             _env = env;
         }
 
-        [HttpGet]
+        [HttpGet("Import")]
         public async Task<ActionResult> Import()
         {
             var path = Path.Combine(_env.ContentRootPath, "Data/Source/worldcities.xlsx");
@@ -131,7 +131,7 @@ namespace HealthCheck.Controllers.Seed
 
         }
    
-        [HttpGet]
+        [HttpGet("CreateDefaultUsers")]
         public async Task<ActionResult> CreateDefaultUsers()
         {
             string role_RegisteredUser = "RegisteredUser";

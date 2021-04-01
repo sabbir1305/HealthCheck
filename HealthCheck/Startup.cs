@@ -63,20 +63,21 @@ namespace HealthCheck
 
             //Add ASP Core Identity Support
             services.AddDefaultIdentity<ApplicationUser>(options =>
-            {
 
+            {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequiredLength = 8;
-            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
-
-            services.AddIdentityServer()
-             .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-            services.AddAuthentication().AddIdentityServerJwt();
-
+            })
+        .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>();
+                    services.AddIdentityServer()
+                    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                    services.AddAuthentication()
+                    .AddIdentityServerJwt();
 
         }
         

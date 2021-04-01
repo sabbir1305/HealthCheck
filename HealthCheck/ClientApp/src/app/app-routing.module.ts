@@ -7,15 +7,17 @@ import { CountryComponent } from "./country/country.component";
 import { CityEditComponent } from "./city-edit/city-edit.component";
 import { CountryEditComponent } from "./country-edit/country-edit.component";
 
+import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
+
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'health-check', component: HealthCheckComponent },
   { path: 'app-cities', component: CitiesComponent },
   { path: 'app-country', component: CountryComponent },
-  {path: 'city/:id', component:CityEditComponent},
-  { path: 'city', component: CityEditComponent },
-  { path: 'country/:id', component: CountryEditComponent },
-  { path: 'country', component: CountryEditComponent }
+  {path: 'city/:id', component:CityEditComponent,canActivate:[AuthorizeGuard]},
+  { path: 'city', component: CityEditComponent,canActivate:[AuthorizeGuard] },
+  { path: 'country/:id', component: CountryEditComponent,canActivate:[AuthorizeGuard] },
+  { path: 'country', component: CountryEditComponent,canActivate:[AuthorizeGuard] }
 ];
 
 @NgModule({
