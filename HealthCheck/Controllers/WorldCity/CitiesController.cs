@@ -9,6 +9,7 @@ using HealthCheck.Data;
 using HealthCheck.Data.Models.WorldCities;
 using HealthCheck.Helpers;
 using HealthCheck.Data.Dtos;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HealthCheck.Controllers.WorldCity
 {
@@ -47,6 +48,7 @@ namespace HealthCheck.Controllers.WorldCity
         }
 
         // GET: api/Cities/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<City>> GetCity(int id)
         {
@@ -60,6 +62,7 @@ namespace HealthCheck.Controllers.WorldCity
             return city;
         }
 
+        [Authorize]
         // PUT: api/Cities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -91,6 +94,7 @@ namespace HealthCheck.Controllers.WorldCity
             return NoContent();
         }
 
+        [Authorize]
         // POST: api/Cities
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -102,6 +106,7 @@ namespace HealthCheck.Controllers.WorldCity
             return CreatedAtAction("GetCity", new { id = city.Id }, city);
         }
 
+        [Authorize]
         // DELETE: api/Cities/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCity(int id)
